@@ -1,0 +1,123 @@
+from random import choices
+
+from cryptography.fernet import Fernet
+
+dict_to_crypto = {
+    '000': b'W5IPFbhvFmffxvjLM5e8C3vbPKKF5Lbx4TQRuIddwfI=',
+    '001': b'Kiq7ZCEak6hKtU5NzM1vqv43iNqMQs2hcZfr2Pe6hR8=',
+    '002': b'qop6j1cMS03jOH_bRIepFinHB5h24M1isgkEa2DK_bk=',
+    '003': b'VINhKD1yvI6VumL19t3YQJWpjtmDKaxNI6s9T-ie0eY=',
+    '004': b'VzDdHTpc4M9RppNWtvyWxpKHd1SLbyQKnaoIKXmwT9Q=',
+    '005': b'nfP5t5eBq49YmzmPIF7V-iRdXXEDUDEGZZMckip9TIs=',
+    '006': b'JnIEG39Pb12yujtFP0AHjYIWzHAtkMH3_er4gJVps-c=',
+    '007': b'c32jWKlh-svTg8mSXcZB7BeVWfa9mSVGpvOBDOH2BGk=',
+    '008': b'zNPu8wDdGHWLsq5HDdxVHFZR8KIk2hiyfqanXtUb3sI=',
+    '009': b'ZPXBfjYrlNGw74BIMu1ChJAf_2yYdZux8FPAyTViaJU=',
+    '010': b'LYutWo_ZUCJMMAQzppw5iA7Dh2VihxfsA-VeOENbYSU=',
+    '011': b'_unYjUxgx6Y3cx7mIWAiTxUTYv_tnoxQv89o4BgYQ40=',
+    '012': b'RBn57MhA2V4aJonPuZEismuWSWzZoVEoFbXNEkBwIFA=',
+    '013': b'L5iXIXu7Ng0wc7JmJxz2Odh7sePYvhOJxTlGnnTvtco=',
+    '014': b'JkkI90yRuWQYNhvtYVUlS3uSMUh8hIuQmmMTaUBJMG0=',
+    '015': b'iU9v-XYlkr-9pRG4FPlHa5zBsDxa-Gudn29fmntVZQ4=',
+    '016': b'ilTz-S5SGT20KaJR2CDfJslKex_gdD-CTd1tmd6u1RQ=',
+    '017': b'x0DS8EJSAtJ0A5uBgiUmNWxBMRVv2DfSoHsRWxEi0Pg=',
+    '018': b'8BzkxJAuqJZ1iJsXkUg3ihzUAqcNHNY-iWcJIUBT7iU=',
+    '019': b'zpNRUMEedUU6E1t-9F-cXJk2yOdV5_8Hq-pgfFI24PE=',
+    '020': b'jTtKP-xpSkylRh0od-tSbBXgnf7DHQnuARPM_W7bNoE=',
+    '021': b'tFJXjNEjwrQUtvb5s41Jmc_L3XoXG9_bLw3BB7JgufI=',
+    '022': b'EAIhWR5XumT_xlE14qslLSxe6irnEvYmW-haJGwP_AU=',
+    '023': b'zdXNBEj9MnTZVk0eT1NDRmOmldu-7PJh8k-_EJSmC40=',
+    '024': b'4-yHYEnEB575MOJT402U_i-ktCpNiclUzV7jq-5h5Y8=',
+    '025': b'tysOuegntRik66waBysHhhKOlL9YPoxgMknmKn7Qj_k=',
+    '026': b'I2yBRkRw4oWsJuGeTLoLtzjSN9KdwpOdwdjHYm70pjA=',
+    '027': b'jeWP_LWkeI9y-eqE7PT4qKWvCThRCEPhyXBl2j4BDVE=',
+    '028': b'lsJFRjMne_mylUFtEsx7dNYfO_qEMkou7H_-9YbP3hw=',
+    '029': b'mYg0h20N-Bqh8888dexE4id36vXIm5GdbvOl5o6PNmY=',
+    '030': b'erKSIMKLOc47TAQlY7gxV5ePPfBxtPxFH3VhieWIduU=',
+    '031': b'dICXtfxsSOyer91SPh__UbxoWyEI8zZLB6493bfSzRo=',
+    '032': b'HF630xgJfvmmx5SnRbSg4jdraI87iYKqVIjsz0Cr72s=',
+    '033': b'r_6etgxu44-yAVbc6ChXUxAKsAtSom2iLd_d1wLIIA4=',
+    '034': b'Q2J-qNeR1-edOp3YFf1KGtSsW8yZCJMGCOmJuqI30Y0=',
+    '035': b'oznvBhb_OjQZcuRqtO6yi--1YiNECytlay7n8GyaaZg=',
+    '036': b'FrB9n7WljuYhwLDZlJ37joF-i_1SMwgKRw8dp4AT8tM=',
+    '037': b'pTPJR6ljS7H9MZMrWF1nlE0rxTUow1jqTDFT_pP4d5Y=',
+    '038': b'OHhfhH2KE6P5yVBPKPnJl_djnrtl081bjJgNfQ4g4Ys=',
+    '039': b'7pIPcwwZ7cEZQsUFQ6akEjU4YQ7ddfNk_SgeKr606zY=',
+    '040': b'N483cpqxPlZzyPUbxzTj8XCI_QbtfOcEFD8rDDg98VM=',
+    '041': b'S3PYu83Kj6a2A4hEci6ZSiNh5QmiT-6LlKA0tYQyuzw=',
+    '042': b'Pfl-tABPy-JbbAxgRpsilWUEFx75-RnzwAgHX1UWh88=',
+    '043': b'53Vu_J4J-ZwHEPoPOYIVx8RqyvmNZeCCfr48SVBvBdY=',
+    '044': b'fXdok1ufs765-jn-gYWhttO_9V8D5Yrax9pkUDYjtq4=',
+    '045': b'rhMd3zeQG8RBcsX2CVHvywtxDdGB6vBuVvo235IG1V0=',
+    '046': b'TWiCM1jqClbCxq7GbauYM3uhEqjXHR-Bxym7rAMqgs8=',
+    '047': b'tlwJYGPdfK8ZjyNwvmiOB4T4DYAJlNdN_J3l7R_kcAw=',
+    '048': b'QI6mrYRaq7fHWWOuoomiJzjiBpwPcEWK2dmXcQTxrOI=',
+    '049': b'T4QS4IhhSX3OX__ctNZa5bhHXwoBmfqcc1EHNX3gK_k=',
+    '050': b'kd9Ik2qz9SrysIvx3liM0JGx1aiMpf_wTcpqmzr5Kv4=',
+    '051': b'6hwvTmMMDTHrhdEjkQJaJ57TC5ouRXPeXsJKIEXg4NU=',
+    '052': b'nTRnRQLjhdd-AIrI8yxghltiJsGzDpGqBwt5AoSXy_w=',
+    '053': b'HMxyeOPizbc_88lis6RxR6t-x_EgKnGaLEwm5b8El-g=',
+    '054': b'Hk6IE5kMrkPQ85wfcr95IdJbBHri9mq0pHbWAJ99XfE=',
+    '055': b'j6ExuCNrWVDfHd237i6mPdv5Zv65hBZ5QnJtW4QovTc=',
+    '056': b'rVIxynbuRO0GWPwNEuwryiqJY9MmK0k8S_Pp3TId1cY=',
+    '057': b'4BpW_kUVqgGH8fZJOaB4y6KpCIfuOudHEW80rupJcGg=',
+    '058': b'p2c0jZ6NkH_PL5xkxo6AP1HJv4va_b3OFWif9pIvrsA=',
+    '059': b'pi49Ggxl5B8Jqpd-3XVwDAnuxi68uPwagQ7ht4-lqMQ=',
+    '060': b'-AU4Qw4yiY3vcL7LbCr4mOu8ZtYD55a6mJpBTj8PU-0=',
+    '061': b'0lQGvKMYWmcp0VnwAnykuCOGpDC-FRC3G4K9qO5ZjkY=',
+    '062': b'ONuKpLoUwOno3vjgqzqsqr7-XpJWRcXQ9ecLYukjwlM=',
+    '063': b'nWO2f1AcM_gezVyrQ6Z4TtMFMCexNns5Fe8I3iVnDA8=',
+    '064': b'vp4BfZy6gUMNONrFWRrtph64zoGgJxgzVT1SJgOn0fU=',
+    '065': b'-LX60tGIPaD-zxFV51mFpedQRoSByVP53fhuuMT0tqk=',
+    '066': b'PkandnuzI9gadFbPFhCwUbMjkS0dBhebBBSOFfc8bgU=',
+    '067': b'I7fa6irorKMUJWjVF6E6ysXtDX62Evv7pFmI7W_4tZU=',
+    '068': b'lxtCmWyq7yt27P2fZOWuzcJHMv6bGNMEPz5vpYB5l1Q=',
+    '069': b'f-yikppLA41pFcJF-GmMT_exfqQnlqdxPC0A8BHKyj4=',
+    '070': b'J5YsKbYjg6x_SV6A7s7Eos4N85zjbmzxcdn-yMvFQ3w=',
+    '071': b'fneoxjOi1CE1eA0CKZCbBjD_XSyIuk28ywZO77e-4EI=',
+    '072': b's7Pjwa1sPY2OQmL-iFOUHfOcTYAMEKXt5n1L6g3c-hU=',
+    '073': b'7Uzbtrqk2oKQcxnqDn68mFlEVCHlFjIwdTCDdUp-ppk=',
+    '074': b'9kvTMwPmrtGjyf8uBvnIb60n6GlQimzIqinQZXmPEsc=',
+    '075': b'Gacs9s8RICfwjqJ3QUImzD7BV2vFU5EA5cwDgV1pA_k=',
+    '076': b'-2KyWcBy9WKRANm3EGt-k95QonUZeqKnDcAh6N3O-jM=',
+    '077': b'dnXp70pHnbqocGfjIKZZBciIFzi1lvNpy2RQEpUPMbU=',
+    '078': b'6iEorFsUIn0xJxZMIPqqe_JPoN6pieo7tEmuJvwujoY=',
+    '079': b'wz_PWaMn15qoJSRCphsUgeq-8ibVegkanp69Cj4dMYk=',
+    '080': b'zNAM0srAwbrugoHXdSNVuPPxxw5d6Y9lTrSbRoFcolU=',
+    '081': b'ZideJSGU66g7PE54VF4M52ExSuZqn1ztKx1W41_lkYs=',
+    '082': b'j3Ho6wji1XZ_m8KxMu76X0D9dnh-s2F_4w9wnZ-FGUI=',
+    '083': b'MoXt-qY1NR6UA2W428wk69xNgPAL1HHahkZJSDK8FtM=',
+    '084': b'tL5ygalNm9OOKWjRpYo-OkpSnZ2pc06J9zlt-uCAYAo=',
+    '085': b'kKbpxYvjKQ7ZgoaRIhlScAEy0oGx3r1dTlEQvy14z-M=',
+    '086': b'bstxBhatD8C-MZ9M_TFRtxgcoa9C1CqcyFeGm_nYsaA=',
+    '087': b'E2zlUibop3CYMwmnYq87ugsQj6C34znbi0PbluKk8Z4=',
+    '088': b'vu-J4zI9tsP-3FQbMZFVox845Zdaz3lrfb28KoQk9lA=',
+    '089': b'xKARQycERwzo6G0Ts7x-sgmkbcM4Dh8h1CjyhN1j10A=',
+    '090': b'g1NjgIVU6FT9qbtPQgaB1Fh4R3LaTD26F8L21sPqOtQ=',
+    '091': b'E43qhX9hvHKxjd0YumvPlMPP1kQSvkABlEk1bwTYmU0=',
+    '092': b'X89kti349PPNo9rWuMK2v9QLM2AnRSGUcN0zBQ4Iql0=',
+    '093': b'Bpor54RPibsVKqSVI5ZVMfRT7dXi4bkFH4Yqyzk6Fhc=',
+    '094': b'6wluXV_6ne8-JBAH72Bm3PnAOWWTtcfXg6C926NTeRQ=',
+    '095': b'SijYOEB4iXoxS5V0Uqvc7ZgILVAf2AqxQzYY9Ow1B_E=',
+    '096': b'_pNy27G7T3757sQngl_6khEX9udapIyVKIPezxf2mpc=',
+    '097': b'2gP06aSWeVU2HDOtTGHgdyW0ujmmZW0aLJGhY5K-IuY=',
+    '098': b'GwbP12sCwZ7N66kuxiQ7cwwwBlWaTBIJtYSvBs3TTU0=',
+    '099': b'kgEy8efTlDEuGaP8YGQwcWdl4G5JaK_rLqPmPAz3fcs=',
+    '100': b'l4Tkj64pdecHbNSP7-NTCzVHcgqkJIiZT3rK1GgY4rs='
+}
+
+
+def encrypth(dicted):
+    election = choices(list(dict_to_crypto), k=1)[0]
+    dict_in_str = str(dicted)
+    cipher_suite = Fernet(dict_to_crypto[election])
+    cypher_text = cipher_suite.encrypt(dict_in_str.encode())
+    return election + cypher_text.decode()
+
+
+def desencrypth(text):
+    election = text[0] + text[1] + text[2]
+    cipher_suite = Fernet(dict_to_crypto[election])
+    text_to_descryp = text[3:].encode()
+    desent = cipher_suite.decrypt(text_to_descryp).decode()
+    return eval(desent)
