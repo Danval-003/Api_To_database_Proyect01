@@ -17,7 +17,7 @@ import secrets
 import string
 # Se importa el modulo extra que se asegura de que los parametros que se obtengan de la base de datos o que se
 # registren sean correctos
-from correc_params import *
+from to_complement.correc_params import *
 
 
 # Funcion que realiza la coneccion a la base de datos

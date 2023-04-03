@@ -11,17 +11,17 @@ Descripcion:
 Rutas de la Api para el manejo de la base de datos
 """
 
-# Imports de las librerias utilizadas para la creacion de la Api y el manejo de los datos JSON, Y el permiso para que
+# Imports de las librerias utilizadas para la creación de la Api y el manejo de los datos JSON, Y el permiso para que
 # acepte Cors
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
-from cryptografic import encrypth
+from to_complement.cryptografic import encrypth
 
-from User import User
+from object_user.User import User
 # Se importa el modulo para conectar con postgres
-from conect_postgres import *
+from connect_to_postgressql.for_sessions import *
 
 # Asignacion de la declaracion del modulo actual
 app = Flask(__name__)
