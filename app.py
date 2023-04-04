@@ -7,7 +7,7 @@ Daniel Armando Valdez Reyes|21240
 Diego Alexander Hernandez Silvestre|21270
 Kristopher Javier Alvarado Lopez|21188
 
-Descripcion:
+Description:
 Rutas de la Api para el manejo de la base de datos
 """
 
@@ -15,8 +15,6 @@ Rutas de la Api para el manejo de la base de datos
 # acepte Cors
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
-from flask_login import LoginManager, current_user, login_user, logout_user, login_required
-
 from extensions.login_manager import lm
 from routes.to_login import auth_bp
 from routes.singin import in_bp
