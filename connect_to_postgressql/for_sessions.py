@@ -12,24 +12,16 @@ Modulo para las conexiones a la base de datos en postgres
 """
 
 # Se importa la libreria para realizar la conexion y los querys a la base de datos
-import psycopg2
+
 import secrets
 import string
+
+import psycopg2
+
+from extensions.conection import connect
 # Se importa el modulo extra que se asegura de que los parametros que se obtengan de la base de datos o que se
 # registren sean correctos
 from to_complement.correc_params import *
-
-
-# Funcion que realiza la coneccion a la base de datos
-def connect(user='postgres', password='postgres123'):
-    # Se le manda la informacion para realizar la coneccion
-    conn = psycopg2.connect(
-        host="uvg-bd-p2v2.czfikro2hw8h.us-east-2.rds.amazonaws.com",
-        database="postgres",
-        user=user,
-        password=password
-    )
-    return conn
 
 
 # Funcion que agrega los datos obtenidos a la base de datos

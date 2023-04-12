@@ -1,18 +1,7 @@
 import psycopg2
 from flask_login import UserMixin
 from to_complement.cryptografic import desencrypth
-
-
-# Funcion que realiza la coneccion a la base de datos
-def connect(user_id, pas):
-    # Se le manda la informacion para realizar la coneccion
-    conn = psycopg2.connect(
-        host="uvg-bd-p2v2.czfikro2hw8h.us-east-2.rds.amazonaws.com",
-        database="postgres",
-        user="postgres",
-        password="postgres123"
-    )
-    return conn
+from extensions.conection import connect
 
 
 dict_role = {
@@ -44,7 +33,9 @@ class User(UserMixin):
         return desencrypth(self.user_id)['role']
 
     def get_my_user_conection(self):
-        return dict_role[desencrypth(self.user_id)['role']]
+        user_info = dict_role[desencrypth(self.user_id)['role']]
+        conn = connect(user_info[0], user_info[1])
+        return conn
 
     def important_data(self):
         return desencrypth(self.user_id)
