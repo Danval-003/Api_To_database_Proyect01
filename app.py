@@ -48,7 +48,10 @@ def unauthorized():
 # Ruta por defecto de la Api
 @app.route('/')
 def hello_world():
-    return '<h1>Se bienvenido a nuestra Api<h1>'
+    return '''
+    <h1>Se bienvenido a nuestra Api<h1>
+    <h2>Version 2.2: Moduled Version<h2>
+    '''
 
 
 # Programa principal para correr el Api Flask
