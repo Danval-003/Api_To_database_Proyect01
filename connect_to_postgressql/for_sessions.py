@@ -148,8 +148,6 @@ def do_login(data_login):
     if len(rows) == 1:
         status['message'] = 'Se encontro un match Login correcto'
         status['dpi'] = rows[0][0]
-        status['nombre'] = rows[0][1]
-        status['role'] = rows[0][3]
     elif len(rows) > 1:
         status['error'] = 404
         status['message'] = 'Alguien se canto en la base de datos, hay mas de un login encontrado'
