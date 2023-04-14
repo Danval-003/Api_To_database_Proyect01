@@ -20,12 +20,12 @@ def login():
     reque = request.get_json()
     process = do_login(reque)
 
-    data = dict()
-
-    data.update({'dpi': reque['dpi'], 'clave': reque['clave']})
     # Si el proceso no es exitoso se manda el codigo 404
     if process['error'] != 202:
         return make_response(jsonify({'message': process['message']}), process['error'])
+    data = dict()
+
+    data.update({'dpi': reque['dpi'], 'clave': reque['clave']})
 
     user = User(encrypth(data))
     login_user(user, remember=True)

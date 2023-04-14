@@ -18,6 +18,8 @@ from flask_cors import CORS
 from extensions.login_manager import lm
 from routes.to_login import auth_bp
 from routes.singin import in_bp
+from routes.materials import materials_bp
+
 # Se importa el modulo para conectar con postgres
 
 # Asignacion de la declaracion del modulo actual
@@ -36,6 +38,7 @@ app.secret_key = 'danta2024'
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(in_bp)
+app.register_blueprint(materials_bp)
 
 
 @login_manager.unauthorized_handler
@@ -50,7 +53,7 @@ def unauthorized():
 def hello_world():
     return '''
     <h1>Se bienvenido a nuestra Api<h1>
-    <h2>Version 2.2: Moduled Version<h2>
+    <h2>Version 3.0: Inventory Api<h2>
     '''
 
 

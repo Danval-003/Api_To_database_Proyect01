@@ -11,4 +11,10 @@ def material_inventory(conn):
         status['message'] = 'No se encontraron materiales escazos'
         return status
 
-    
+    status['data'] = [{
+        "healthUnit": row[0],
+        "product": row[1],
+        "totalQuantity": row[2],
+        "availableQuantity": row[3]
+    } for row in rows]
+    return status

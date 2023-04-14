@@ -1,5 +1,5 @@
 # Api_To_database_Proyect01
-**_Version 2.2: Moduled Version_**
+**_Version 3.0: Inventory Api_**
 
 URL de origen http://52.14.44.33/api/
 
