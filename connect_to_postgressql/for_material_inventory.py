@@ -18,3 +18,5 @@ def material_inventory(conn):
         "availableQuantity": row[3]
     } for row in rows]
     return status
+
+

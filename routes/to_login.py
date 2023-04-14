@@ -25,11 +25,12 @@ def login():
         return make_response(jsonify({'message': process['message']}), process['error'])
     data = dict()
 
-    data.update({'dpi': reque['dpi'], 'clave': reque['clave']})
+    data.update({'dpi': reque['dpi'], 'password': reque['clave']})
 
     user = User(encrypth(data))
     login_user(user, remember=True)
-    return jsonify({'message': process['message']})
+    return jsonify({'message': process['message'],
+                    'rol': user.get_rol()})
 
 
 @lm.user_loader

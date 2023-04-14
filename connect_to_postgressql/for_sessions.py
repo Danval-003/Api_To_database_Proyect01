@@ -113,9 +113,9 @@ def get_login():
         # Cada fila se trata de colocar en formato JSON
         data.append({
             "dpi": row[0],
-            "nombre": row[1],
-            "clave": row[2],
-            "rol": row[3]
+            "name": row[1],
+            "password": row[2],
+            "role": row[3]
         })
     cur.close()
     conn.close()

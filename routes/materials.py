@@ -13,4 +13,3 @@ materials_bp = Blueprint('materials', __name__)
 def verify_inventory():
     conn = current_user.get_my_user_conection()
     return comprobation_inventory(material_inventory(conn))
-

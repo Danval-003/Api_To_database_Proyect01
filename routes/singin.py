@@ -29,7 +29,7 @@ def sing_in():
 def access_code():
     if current_user.get_rol() == 'Admin':
         data = request.get_json()
-        return jsonify(get_sing_in_code(data['rol']))
+        return jsonify(get_sing_in_code(data['role']))
     response = jsonify({'error': 'Unauthorized'})
     response.status_code = 401
     return response

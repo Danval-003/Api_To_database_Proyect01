@@ -29,12 +29,12 @@ class User(UserMixin):
 
     def get_rol(self):
         dpi_0 = desencrypth(self.user_id)['dpi']
-        clave_0 = desencrypth(self.user_id)['clave']
+        clave_0 = desencrypth(self.user_id)['password']
         return get_role(dpi_0, clave_0)
 
     def get_name_u(self):
         dpi_0 = desencrypth(self.user_id)['dpi']
-        clave_0 = desencrypth(self.user_id)['clave']
+        clave_0 = desencrypth(self.user_id)['password']
         return get_name(dpi_0, clave_0)
 
     def get_my_user_conection(self):
@@ -45,8 +45,8 @@ class User(UserMixin):
     def important_data(self):
         data = desencrypth(self.user_id)
         data.update(
-            {'rol': self.get_rol(),
-             'nombre': self.get_name_u()
+            {'role': self.get_rol(),
+             'name': self.get_name_u()
              }
         )
 
