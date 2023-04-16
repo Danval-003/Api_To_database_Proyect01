@@ -58,10 +58,11 @@ def expedient(conn, id_patient):
     }
     cur = conn.cursor()
     cur.execute(''' 
-                select  i.descripcion, it.cantidad, it.fecha_final, it.fecha_inicio, it.dosis
-                    from insumos_tratamientos it
-                    inner join insumos i on i.id = it.id_insumo
-                where it.id_consulta =''' + str(id_patient))
+                select m.nombre, e.nombre, us.nombre, fecha, consulta.descripcion, consulta.evolucion, consulta.id  from consulta
+                    inner join enfermedad e on e.id = consulta.id_enfermedad
+                    inner join medico m on m.id = consulta.id_medico
+                    inner join unidad_salud us on us.id = consulta.id_unidad_salud
+                where consulta.id_paciente =''' + str(id_patient))
     rows = cur.fetchall()
     if len(rows) != 0:
         status['data'] = [{
