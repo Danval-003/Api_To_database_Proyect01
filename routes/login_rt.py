@@ -27,10 +27,11 @@ def login():
 
     data.update({'dpi': reque['dpi'], 'password': reque['clave']})
 
-    user = User(encrypth(data))
+    id = encrypth(data)
+    user = User(id)
     resp = make_response(jsonify({'message': process['message'],
                                   'rol': user.get_rol(),
-                                  'session_token': current_user.get_id()}), 200)
+                                  'session_token': id}), 200)
     login_user(user, remember=True)
     return resp
 
