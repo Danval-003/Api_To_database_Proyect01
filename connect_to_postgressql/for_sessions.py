@@ -142,7 +142,7 @@ def do_login(data_login):
         return status
 
     cur.execute("SELECT * FROM usuarios_app where dpi = %s and clave =%s",
-                (data_login["dpi"], first_mayus(data_login["clave"])))
+                (data_login["dpi"], data_login["clave"]))
     rows = cur.fetchall()  # El cursor obtiene los datos en las filas
 
     if len(rows) == 1:
