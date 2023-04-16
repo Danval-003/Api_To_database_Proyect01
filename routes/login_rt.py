@@ -1,5 +1,6 @@
 from flask import Blueprint, make_response, jsonify, request
 from flask_login import login_user, login_required, current_user, logout_user
+from werkzeug.exceptions import Unauthorized
 
 from connect_to_postgressql.for_sessions import do_login
 from extensions.login_manager import lm
@@ -34,6 +35,25 @@ def login():
                                   'sessionToken': id}), 200)
     login_user(user, remember=True)
     return resp
+
+
+@lm.request_loader
+def load_user_from_request(request):
+    # Obtiene el token de sesión de la cabecera "Authorization" de la solicitud HTTP
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[0]
+    else:
+        auth_token = ''
+
+    # Verifica el token de sesión y devuelve el usuario autenticado
+    if auth_token:
+        user = User(auth_token)
+        if user:
+            return user
+
+    # Si el token no es válido, lanza una excepción Unauthorized (401)
+    raise Unauthorized('Unauthorized')
 
 
 @lm.user_loader
