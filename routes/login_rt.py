@@ -31,7 +31,7 @@ def login():
     user = User(id)
     resp = make_response(jsonify({'message': process['message'],
                                   'rol': user.get_rol(),
-                                  'session_token': id}), 200)
+                                  'sessionToken': id}), 200)
     login_user(user, remember=True)
     return resp
 
