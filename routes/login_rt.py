@@ -42,7 +42,7 @@ def load_user_from_request(request):
     # Obtiene el token de sesión de la cabecera "Authorization" de la solicitud HTTP
     auth_header = request.headers.get('Authorization')
     if auth_header:
-        auth_token = auth_header.split(" ")[0]
+        auth_token = auth_header.split(" ")[1]
     else:
         auth_token = ''
 
