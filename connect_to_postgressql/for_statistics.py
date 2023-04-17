@@ -16,7 +16,7 @@ def topDiseases(conn):
                     LIMIT 10;''')
     rows = cur.fetchall()
     if len(rows) == 0:
-        status['message'] = 'No se encontraron pacientes'
+        status['message'] = 'No se encontraron los datos'
         status['error'] = 404
         return status
 
@@ -43,7 +43,7 @@ def topDoctors(conn):
                     LIMIT 10;''')
     rows = cur.fetchall()
     if len(rows) == 0:
-        status['message'] = 'No se encontraron pacientes'
+        status['message'] = 'No se encontraron los datos'
         status['error'] = 404
         return status
 
