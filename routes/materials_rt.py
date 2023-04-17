@@ -15,7 +15,7 @@ def verify_inventory():
     conn = current_user.get_my_user_conection()
 
     if comprobation_inventory():
-        return material_inventory(conn)
+        response = material_inventory(conn)
+        return make_response(jsonify(response), response['error'])
 
     return unauthorized()
-

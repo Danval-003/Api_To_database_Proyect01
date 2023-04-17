@@ -9,6 +9,7 @@ def patients(conn):
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontraron pacientes'
+        status['error'] = 404
         return status
 
     status['data'] = [{
@@ -31,6 +32,7 @@ def patient_now(conn, id_patient):
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontro el paciente'
+        status['error'] = 404
         return status
 
     status['data'] = [{
@@ -77,6 +79,7 @@ def expedient(conn, id_patient):
         return status
 
     status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
     return status
 
 
@@ -104,5 +107,6 @@ def tratamient(conn, id_consult):
         return status
 
     status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
     return status
 

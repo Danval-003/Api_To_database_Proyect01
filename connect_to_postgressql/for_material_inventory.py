@@ -9,6 +9,7 @@ def material_inventory(conn):
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontraron materiales escazos'
+        status['error'] = 404
         return status
 
     status['data'] = [{

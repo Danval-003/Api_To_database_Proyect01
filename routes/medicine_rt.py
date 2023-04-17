@@ -16,10 +16,12 @@ def obtain_patients_list():
 
     conn = current_user.get_my_user_conection()
     if request.method == 'GET':
-        return patients(conn)
+        response = patients(conn)
+        return make_response(jsonify(response), response['error'])
 
     if request.method == 'POST':
-        return patient_now(conn, request.get_json()['id_patient'])
+        response = patient_now(conn, request.get_json()['id_patient'])
+        return make_response(jsonify(response), response['error'])
 
 
 @medicine_bp.route('/expedient', methods=['POST'])
@@ -29,7 +31,8 @@ def obtain_expedient():
         return unauthorized()
 
     conn = current_user.get_my_user_conection()
-    return expedient(conn, request.get_json()['id_patient'])
+    response = expedient(conn, request.get_json()['id_patient'])
+    return make_response(jsonify(response), response['error'])
 
 
 @medicine_bp.route('/tratamient', methods=['POST'])
@@ -39,4 +42,5 @@ def obtain_consult():
         return unauthorized()
 
     conn = current_user.get_my_user_conection()
-    return tratamient(conn, request.get_json()['id_consult'])
+    response = tratamient(conn, request.get_json()['id_consult'])
+    return make_response(jsonify(response), response['error'])
