@@ -49,6 +49,6 @@ def topDoctors(conn):
 
     status['data'] = [{
         'nameDoctor': row[0],
-        'countAttendedPatient': row[2]
+        'countAttendedPatient': row[1]
     } for row in rows]
     return status
