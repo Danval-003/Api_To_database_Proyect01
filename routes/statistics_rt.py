@@ -22,7 +22,7 @@ def obtainTopDiseases():
 
 @statistic_bp.route('/topDoc', methods=['GET'])
 @login_required
-def obtainTopDiseases():
+def obtainTopDoctor():
     if not comprobation_medic():
         return unauthorized()
 
