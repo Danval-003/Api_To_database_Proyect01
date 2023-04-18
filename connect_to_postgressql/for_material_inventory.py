@@ -1,3 +1,6 @@
+import psycopg2
+
+
 def material_inventory(conn):
     status = {
         'error': 202,
@@ -5,7 +8,12 @@ def material_inventory(conn):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute("SELECT * FROM materiales_escazos()")
+    try:
+        cur.execute("SELECT * FROM materiales_escazos()")
+    except psycopg2.IntegrityError as e:
+        # En caso el query falle se obtiene de vuelta el error
+        status['error'] = 500
+        status['message'] = e.diag.message_primary
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontraron materiales escazos'
@@ -19,5 +27,3 @@ def material_inventory(conn):
         "availableQuantity": row[3]
     } for row in rows]
     return status
-
-
