@@ -30,7 +30,7 @@ def material_inventory(conn):
     return status
 
 
-def material_inventory(conn):
+def material_expired(conn):
     status = {
         'error': 202,
         'message': '',
