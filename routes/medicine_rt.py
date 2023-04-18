@@ -44,3 +44,5 @@ def obtain_consult():
     conn = current_user.get_my_user_conection()
     response = tratamient(conn, request.get_json()['id_consult'])
     return make_response(jsonify(response), response['error'])
+
+

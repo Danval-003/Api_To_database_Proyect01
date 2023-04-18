@@ -9,7 +9,7 @@ materials_bp = Blueprint('materials', __name__)
 
 
 # Creacion de la ruta para el acceso a la Api mediante los metodos GET y POST
-@materials_bp.route('/verify_inventory', methods=['GET', 'POST'])
+@materials_bp.route('/verifyInventory', methods=['GET', 'POST'])
 @login_required
 def verify_inventory():
     conn = current_user.get_my_user_conection()
