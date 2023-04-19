@@ -8,7 +8,7 @@ def patients(conn):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute("SELECT id, nombre, direccion, genero  from paciente;")
+    cur.execute("SELECT dpi, nombre, direccion, genero  from paciente;")
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontraron pacientes'
@@ -31,7 +31,7 @@ def patient_now(conn, id_patient):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute("select * from paciente where id = " + str(id_patient))
+    cur.execute("select * from paciente where dpi = " + str(id_patient))
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontro el paciente'
@@ -147,12 +147,14 @@ def editConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fec
     return status
 
 
-def createConsult(cur, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion):
+def createConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion):
     status = {
         'error': 202,
         'message': '',
         'data': []
     }
+
+    cur = conn.cursor()
 
     try:
         cur.execute(''' 
@@ -160,6 +162,10 @@ def createConsult(cur, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fe
                 values(%s, %s, %s, %s, %s, %s, %s, %s); ''',
                     (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion)
                     )
+        conn.commit()
+        status['message'] = 'Bien hecho'
+        status['error'] = 202
+        return status
     except psycopg2.IntegrityError as e:
         # En caso el query falle se obtiene de vuelta el error
         status['error'] = 400
