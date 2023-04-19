@@ -52,7 +52,7 @@ def edit_Consult():
     if not comprobation_medic():
         return unauthorized()
 
-    keys = 'id_patient,id_doctor,id_enfermedad,id_unidad_salud,fecha,descripcion,evolucion,id_consult'
+    keys = 'id_patient,nameDoctor,disease,healthUnit,date,description,evolution,id_consult'
 
     res = request.get_json()
     dataList = []

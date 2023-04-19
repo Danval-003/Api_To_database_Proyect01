@@ -124,8 +124,7 @@ def editConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fec
 
     try:
         cur.execute(''' 
-                UPDATE public.consulta SET id_paciente = %s, id_medico = %s, id_enfermedad = %s,
-                 id_unidad_salud = %s, fecha = %s, descripcion = %s , evolucion = %s WHERE id =  %s; ''',
+                select * from edit_consult(%s, %s, %s, %s, %s, %s, %s, %s, %s);''',
                     (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult)
                     )
     except psycopg2.IntegrityError as e:
