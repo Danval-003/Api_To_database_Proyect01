@@ -46,3 +46,25 @@ def obtain_consult():
     return make_response(jsonify(response), response['error'])
 
 
+@medicine_bp.route('/editConsult', methods=['POST'])
+@login_required
+def edit_Consult():
+    if not comprobation_medic():
+        return unauthorized()
+
+    keys = 'id_patient,id_doctor,id_enfermedad,id_unidad_salud,fecha,descripcion,evolucion,id_consult'
+
+    res = request.get_json()
+    dataList = []
+
+    try:
+        for i in keys.split(','):
+            dataList.append(res[i])
+
+        conn = current_user.get_my_user_conection()
+        response = editConsult(conn, dataList[0], dataList[1], dataList[2], dataList[3], dataList[4], dataList[5],
+                               dataList[6], dataList[7])
+        return make_response(jsonify(response), response['error'])
+
+    except Exception as expceptionMsg:
+        return make_response(jsonify(expceptionMsg), 404)

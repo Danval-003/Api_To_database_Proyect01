@@ -114,6 +114,30 @@ def tratamient(conn, id_consult):
     return status
 
 
+def editConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+
+    try:
+        cur.execute(''' 
+                UPDATE public.consulta SET id_paciente = %s, id_medico = %s, id_enfermedad = %s,
+                 id_unidad_salud = %s, fecha = %s, descripcion = %s , evolucion = %s WHERE id =  %s; ''',
+                    (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult)
+                    )
+    except psycopg2.IntegrityError as e:
+        # En caso el query falle se obtiene de vuelta el error
+        status['error'] = 400
+        status['message'] = e.diag.message_primary
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
+
+
 def createConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion):
     status = {
         'error': 202,
