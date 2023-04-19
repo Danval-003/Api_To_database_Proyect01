@@ -55,16 +55,19 @@ def edit_Consult():
     keys = 'id_patient,nameDoctor,disease,healthUnit,date,description,evolution,id_consult'
 
     res = request.get_json()
+    print(res)
     dataList = []
 
     try:
         for i in keys.split(','):
             dataList.append(res[i])
 
-        conn = current_user.get_my_user_conection()
-        response = editConsult(conn, dataList[0], dataList[1], dataList[2], dataList[3], dataList[4], dataList[5],
+        cur = current_user.get_my_user_cursor()
+        print(dataList)
+        response = editConsult(cur, dataList[0], dataList[1], dataList[2], dataList[3], dataList[4], dataList[5],
                                dataList[6], dataList[7])
         return make_response(jsonify(response), response['error'])
 
-    except Exception as expceptionMsg:
-        return make_response(jsonify(expceptionMsg), 404)
+    except psycopg2.IntegrityError as expceptionMsg:
+        ex = expceptionMsg +""
+        return make_response(jsonify(ex), 404)

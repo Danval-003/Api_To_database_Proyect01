@@ -47,6 +47,17 @@ class User(UserMixin):
         """)
         return conn
 
+    def get_my_user_cursor(self):
+        user_info = dict_role[self.get_rol()]
+        conn = connect(user_info[0], user_info[1])
+        name_0 = self.get_name_u()
+        cur = conn.cursor()
+        cur.execute("""
+        set my.app_user = '"""+name_0+"""';
+        select current_setting('my.app_user');
+        """)
+        return cur
+
     def important_data(self):
         data = desencrypth(self.user_id)
         data.update(
