@@ -67,7 +67,7 @@ def expedient(conn, id_patient):
                     inner join enfermedad e on e.id = consulta.id_enfermedad
                     inner join medico m on m.id = consulta.id_medico
                     inner join unidad_salud us on us.id = consulta.id_unidad_salud
-                where consulta.id_paciente =''' + str(id_patient))
+                where consulta.dpi_paciente =''' + str(id_patient))
     rows = cur.fetchall()
     if len(rows) != 0:
         status['data'] = [{
@@ -158,7 +158,7 @@ def createConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, f
 
     try:
         cur.execute(''' 
-                insert into consulta(id_paciente, id_medico, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion) 
+                insert into consulta(dpi_paciente, id_medico, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion) 
                 values(%s, %s, %s, %s, %s, %s, %s, %s); ''',
                     (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion)
                     )
