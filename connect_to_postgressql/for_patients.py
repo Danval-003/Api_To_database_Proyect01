@@ -114,18 +114,25 @@ def tratamient(conn, id_consult):
     return status
 
 
-def editConsult(cur, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult):
+def editConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult):
     status = {
         'error': 202,
         'message': '',
         'data': []
     }
 
+    cur = conn.cursor()
+
     try:
+        print(''' 
+                select * from edit_consult(%s, %s, %s, %s, %s, %s, %s, %s);''',
+                    (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult))
         cur.execute(''' 
                 select * from edit_consult(%s, %s, %s, %s, %s, %s, %s, %s);''',
                     (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult)
                     )
+
+        conn.commit()
         status['message'] = 'Bien hecho'
         status['error'] = 202
         return status

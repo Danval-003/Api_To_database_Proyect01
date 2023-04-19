@@ -62,9 +62,9 @@ def edit_Consult():
         for i in keys.split(','):
             dataList.append(res[i])
 
-        cur = current_user.get_my_user_cursor()
+        conn = current_user.get_my_user_conection()
         print(dataList)
-        response = editConsult(cur, dataList[0], dataList[1], dataList[2], dataList[3], dataList[4], dataList[5],
+        response = editConsult(conn, dataList[0], dataList[1], dataList[2], dataList[3], dataList[4], dataList[5],
                                dataList[6], dataList[7])
         return make_response(jsonify(response), response['error'])
 
