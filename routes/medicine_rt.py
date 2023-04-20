@@ -23,6 +23,7 @@ def obtain_patients_list():
         response = patient_now(conn, request.get_json()['id_patient'])
         return make_response(jsonify(response), response['error'])
 
+
 @medicine_bp.route('/patientInstant', methods=['GET', 'POST'])
 @login_required
 def obtain_patient_instant():
@@ -81,5 +82,5 @@ def edit_Consult():
         return make_response(jsonify(response), response['error'])
 
     except psycopg2.IntegrityError as expceptionMsg:
-        ex = expceptionMsg +""
+        ex = expceptionMsg + ""
         return make_response(jsonify(ex), 404)
