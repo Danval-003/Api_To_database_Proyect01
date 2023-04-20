@@ -131,7 +131,7 @@ def edit_Tratamient():
 
         conn = current_user.get_my_user_conection()
         print(dataList)
-        response = editPatient(conn, tuple(dataList))
+        response = editTratamient(conn, tuple(dataList))
         return make_response(jsonify(response), response['error'])
 
     except psycopg2.IntegrityError as expceptionMsg:
