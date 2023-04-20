@@ -113,7 +113,7 @@ def edit_Patient():
         return make_response(jsonify(ex), 404)
 
 
-@medicine_bp.route('/editPatient', methods=['POST'])
+@medicine_bp.route('/editTratamient', methods=['POST'])
 @login_required
 def edit_Tratamient():
     if not comprobation_medic():
