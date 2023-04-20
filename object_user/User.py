@@ -40,9 +40,9 @@ class User(UserMixin):
     def get_my_user_conection(self):
         user_info = dict_role[self.get_rol()]
         conn = connect(user_info[0], user_info[1])
-        name_0 = self.get_name_u()
+        dpi_0 = desencrypth(self.user_id)['dpi']
         conn.cursor().execute("""
-        set my.app_user = '"""+name_0+"""';
+        set my.app_user = '"""+dpi_0+"""';
         select current_setting('my.app_user');
         """)
         return conn
