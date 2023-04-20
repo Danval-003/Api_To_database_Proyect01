@@ -21,6 +21,7 @@ from routes.singin_rt import in_bp
 from routes.materials_rt import materials_bp
 from routes.medicine_rt import medicine_bp
 from routes.statistics_rt import statistic_bp
+from routes.admin_rt import admin_bp
 
 # Se importa el modulo para conectar con postgres
 
@@ -43,6 +44,7 @@ app.register_blueprint(in_bp)
 app.register_blueprint(materials_bp)
 app.register_blueprint(medicine_bp)
 app.register_blueprint(statistic_bp)
+app.register_blueprint(admin_bp)
 
 
 @login_manager.unauthorized_handler
