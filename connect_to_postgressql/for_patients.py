@@ -116,7 +116,7 @@ def tratamient(conn, id_consult):
     }
     cur = conn.cursor()
     cur.execute(''' 
-            select  i.descripcion, it.fecha_final, it.fecha_inicio, it.dosis
+            select  i.descripcion, it.fecha_final, it.fecha_inicio, it.dosis, i.id
                 from insumos_tratamientos it
                 inner join insumos i on i.id = it.id_insumo
             where it.id_consulta = ''' + str(id_consult))
@@ -127,6 +127,7 @@ def tratamient(conn, id_consult):
             'finalDate': row[1],
             'startDate': row[2],
             'dose': row[3],
+            'id': row[4]
         } for row in rows]
         return status
 
@@ -242,10 +243,10 @@ def editTratamient(conn, tupleInformation):
 
     try:
         print(''' 
-                select * from edit_tratamient(%s,%s,%s,%s,%s,%s)''',
+                select * from edit_tratamient(%s,%s,%s,%s,%s)''',
               tupleInformation)
         cur.execute(''' 
-                 select * from edit_tratamient(%s,%s,%s,%s,%s,%s)''',
+                 select * from edit_tratamient(%s,%s,%s,%s,%s)''',
                     tupleInformation
                     )
 
