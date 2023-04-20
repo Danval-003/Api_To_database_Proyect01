@@ -84,3 +84,30 @@ def edit_Consult():
     except psycopg2.IntegrityError as expceptionMsg:
         ex = expceptionMsg + ""
         return make_response(jsonify(ex), 404)
+
+
+@medicine_bp.route('/editPatient', methods=['POST'])
+@login_required
+def edit_Patient():
+    if not comprobation_medic():
+        return unauthorized()
+
+    keys = 'nombre, direccion, fecha_nacimiento, genero, indice_masa_corporal, altura, peso, adicciones, ' \
+           'enfermedad_hereditaria, fecha_inicio, status, telefono, dpi'
+
+    res = request.get_json()
+    print(res)
+    dataList = []
+
+    try:
+        for i in keys.split(', '):
+            dataList.append(res[i])
+
+        conn = current_user.get_my_user_conection()
+        print(dataList)
+        response = editPatient(conn, tuple(dataList))
+        return make_response(jsonify(response), response['error'])
+
+    except psycopg2.IntegrityError as expceptionMsg:
+        ex = expceptionMsg + ""
+        return make_response(jsonify(ex), 404)
