@@ -31,7 +31,7 @@ def patient_now(conn, id_patient):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute("select * from paciente where dpi = " + str(id_patient))
+    cur.execute("select * from paciente where dpi = '" + str(id_patient)+"'")
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontro el paciente'
@@ -67,7 +67,7 @@ def expedient(conn, id_patient):
                     inner join enfermedad e on e.id = consulta.id_enfermedad
                     inner join medico m on m.id = consulta.id_medico
                     inner join unidad_salud us on us.id = consulta.id_unidad_salud
-                where consulta.dpi_paciente =''' + str(id_patient))
+                where consulta.dpi_paciente ='''+"'" + str(id_patient)+"'" )
     rows = cur.fetchall()
     if len(rows) != 0:
         status['data'] = [{
@@ -97,7 +97,7 @@ def tratamient(conn, id_consult):
             select  i.descripcion, it.cantidad, it.fecha_final, it.fecha_inicio, it.dosis
                 from insumos_tratamientos it
                 inner join insumos i on i.id = it.id_insumo
-            where it.id_consulta = ''' + str(id_consult))
+            where it.id_consulta = '''  + str(id_consult))
     rows = cur.fetchall()
     if len(rows) != 0:
         status['data'] = [{
