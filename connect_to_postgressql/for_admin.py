@@ -6,7 +6,7 @@ def obtain_bitacora(conn):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute('select dpi, usuario, tipo_cambio, tabla_modificada, fecha_hora from bitacora')
+    cur.execute('select dpi, usuario, tipo_cambio, tabla_modificada, fecha_hora from bitacora order by fecha_hora desc')
     rows = cur.fetchall()
     if len(rows) != 0:
         status['data'] = [{
