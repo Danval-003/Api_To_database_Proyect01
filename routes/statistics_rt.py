@@ -34,7 +34,7 @@ def obtainTopDoctor():
 
 @statistic_bp.route('/topPatient', methods=['GET'])
 @login_required
-def obtainTopDoctor():
+def obtainTopPatient():
     if not comprobation_medic():
         return unauthorized()
 
