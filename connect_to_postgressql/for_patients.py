@@ -129,7 +129,7 @@ def editConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fec
                     (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult))
         cur.execute(''' 
                 select * from edit_consult(%s, %s, %s, %s, %s, %s, %s, %s);''',
-                    (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult)
+                    (str(id_patient), id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult)
                     )
 
         conn.commit()
@@ -160,7 +160,7 @@ def createConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, f
         cur.execute(''' 
                 insert into consulta(dpi_paciente, id_medico, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion) 
                 values(%s, %s, %s, %s, %s, %s, %s, %s); ''',
-                    (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion)
+                    (str(id_patient), id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion)
                     )
         conn.commit()
         status['message'] = 'Bien hecho'
