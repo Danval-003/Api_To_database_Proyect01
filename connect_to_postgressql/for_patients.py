@@ -31,7 +31,7 @@ def patient_now(conn, id_patient):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute("select * from paciente where dpi = '" + str(id_patient)+"'")
+    cur.execute("select * from paciente where dpi = '" + str(id_patient) + "'")
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontro el paciente'
@@ -39,20 +39,22 @@ def patient_now(conn, id_patient):
         return status
 
     status['data'] = [{
-        'id': row[0],
-        'name_patient': row[1],
-        'address': row[2],
-        'birthdate': row[3],
-        'genre': row[4],
-        'corporal_mass': row[5],
-        'height': row[6],
-        'weight': row[7],
-        'addiction': row[8],
-        'hereditary_disease': row[9],
-        'start_date': row[10],
-        'status': row[11]
+        'id': row[12],
+        'name_patient': row[0],
+        'address': row[1],
+        'birthdate': row[2],
+        'genre': row[3],
+        'corporal_mass': row[4],
+        'height': row[5],
+        'weight': row[6],
+        'addiction': row[7],
+        'hereditary_disease': row[8],
+        'start_date': row[9],
+        'status': row[10],
+        'numberTel': row[11]
     } for row in rows]
     return status
+
 
 def patient_instant(conn, id_patient):
     status = {
@@ -61,7 +63,7 @@ def patient_instant(conn, id_patient):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute("select dpi, nombre from paciente where dpi like '" + str(id_patient)+"%'")
+    cur.execute("select dpi, nombre from paciente where dpi like '" + str(id_patient) + "%'")
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontro el paciente'
@@ -87,7 +89,7 @@ def expedient(conn, id_patient):
                     inner join enfermedad e on e.id = consulta.id_enfermedad
                     inner join medico m on m.id = consulta.id_medico
                     inner join unidad_salud us on us.id = consulta.id_unidad_salud
-                where consulta.dpi_paciente ='''+"'" + str(id_patient)+"'" )
+                where consulta.dpi_paciente =''' + "'" + str(id_patient) + "'")
     rows = cur.fetchall()
     if len(rows) != 0:
         status['data'] = [{
@@ -117,7 +119,7 @@ def tratamient(conn, id_consult):
             select  i.descripcion, it.cantidad, it.fecha_final, it.fecha_inicio, it.dosis
                 from insumos_tratamientos it
                 inner join insumos i on i.id = it.id_insumo
-            where it.id_consulta = '''  + str(id_consult))
+            where it.id_consulta = ''' + str(id_consult))
     rows = cur.fetchall()
     if len(rows) != 0:
         status['data'] = [{
@@ -146,10 +148,11 @@ def editConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fec
     try:
         print(''' 
                 select * from edit_consult(%s, %s, %s, %s, %s, %s, %s, %s);''',
-                    (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult))
+              (id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult))
         cur.execute(''' 
                 select * from edit_consult(%s, %s, %s, %s, %s, %s, %s, %s);''',
-                    (str(id_patient), id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult)
+                    (str(id_patient), id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion,
+                     id_consult)
                     )
 
         conn.commit()
