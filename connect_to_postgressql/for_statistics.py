@@ -9,7 +9,7 @@ def topDiseases(conn):
                     inner join consulta c
                     on e.id = c.id_enfermedad 
                     inner join paciente p 
-                    on c.id_paciente = p.id 
+                    on c.id_paciente = p.dpi
                     where p.status = 'Fallecido'
                     group by e.nombre,e.descripcion 
                     order by cantidad desc
