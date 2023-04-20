@@ -23,6 +23,18 @@ def obtain_patients_list():
         response = patient_now(conn, request.get_json()['id_patient'])
         return make_response(jsonify(response), response['error'])
 
+@medicine_bp.route('/patientInstant', methods=['GET', 'POST'])
+@login_required
+def obtain_patient_instant():
+    if not comprobation_medic():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    if request.method == 'POST':
+        response = patient_instant(conn, request.get_json()['id_patient'])
+        return make_response(jsonify(response), response['error'])
+
 
 @medicine_bp.route('/expedient', methods=['POST'])
 @login_required
