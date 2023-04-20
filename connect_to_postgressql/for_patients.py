@@ -116,7 +116,7 @@ def tratamient(conn, id_consult):
     }
     cur = conn.cursor()
     cur.execute(''' 
-            select  i.descripcion, it.cantidad, it.fecha_final, it.fecha_inicio, it.dosis
+            select  i.descripcion, it.fecha_final, it.fecha_inicio, it.dosis
                 from insumos_tratamientos it
                 inner join insumos i on i.id = it.id_insumo
             where it.id_consulta = ''' + str(id_consult))
@@ -124,10 +124,9 @@ def tratamient(conn, id_consult):
     if len(rows) != 0:
         status['data'] = [{
             'inputDescription': row[0],
-            'count': row[1],
-            'finalDate': row[2],
-            'startDate': row[3],
-            'dose': row[4],
+            'finalDate': row[1],
+            'startDate': row[2],
+            'dose': row[3],
         } for row in rows]
         return status
 
@@ -214,6 +213,39 @@ def editPatient(conn, tupleInformation):
               tupleInformation)
         cur.execute(''' 
                 select * from edit_general(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);''',
+                    tupleInformation
+                    )
+
+        conn.commit()
+        status['message'] = 'Bien hecho'
+        status['error'] = 202
+        return status
+    except psycopg2.IntegrityError as e:
+        # En caso el query falle se obtiene de vuelta el error
+        status['error'] = 400
+        status['message'] = e.diag.message_primary
+        return status
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
+
+
+def editTratamient(conn, tupleInformation):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+
+    cur = conn.cursor()
+
+    try:
+        print(''' 
+                select * from edit_tratamient(%s,%s,%s,%s,%s,%s)''',
+              tupleInformation)
+        cur.execute(''' 
+                 select * from edit_tratamient(%s,%s,%s,%s,%s,%s)''',
                     tupleInformation
                     )
 
