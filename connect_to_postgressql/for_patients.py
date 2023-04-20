@@ -61,7 +61,7 @@ def patient_instant(conn, id_patient):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute("select * from paciente where dpi like '" + str(id_patient)+"'")
+    cur.execute("select * from paciente where dpi like '" + str(id_patient)+"%'")
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontro el paciente'
