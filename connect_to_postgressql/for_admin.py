@@ -138,6 +138,7 @@ def editUser(conn, tupleInfo):
 
         conn.commit()
         status['message'] = 'Bien hecho'
+        status['type'] = 'Update'
         status['error'] = 202
         return status
     except psycopg2.IntegrityError as e:
