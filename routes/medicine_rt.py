@@ -79,7 +79,7 @@ def obtain_disease_instant():
 
     if request.method == 'POST':
         id_disease = request.get_json()['key']
-        query = "select id, nombre from enfermedad where to_char(id, 'FM99999') like '" + str(id_disease)+"'"
+        query = "select id, nombre from enfermedad where to_char(id, 'FM99999') like '" + str(id_disease)+"%'"
         response = instant(conn, query, ['dpi', 'nameDisease', 'Disease'])
         return make_response(jsonify(response), response['error'])
 
