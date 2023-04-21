@@ -86,7 +86,6 @@ def obtain_insumo(conn, tupla):
         "expiredDate": row[3],
         "idUnit": row[4],
         "idProduct": row[5]
-
     } for row in rows]
     return status
 
