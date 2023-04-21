@@ -52,7 +52,7 @@ def verify_doctor_unit_history():
 
 @admin_bp.route('/usersInstant', methods=['GET', 'POST'])
 @login_required
-def obtain_disease_instant():
+def obtain_users_instant():
     if not comprobation_admin():
         return unauthorized()
 
@@ -62,4 +62,33 @@ def obtain_disease_instant():
         userName = request.get_json()['key']
         query = "select nombre, dpi from usuarios_app where nombre like '%" + str(userName) + "%'"
         response = instant(conn, query, ['nameUser', 'dpiUser', 'User'])
+        return make_response(jsonify(response), response['error'])
+
+
+@admin_bp.route('/usersDefinitlyInstant', methods=['GET', 'POST'])
+@login_required
+def obtain_usersDefi_instant():
+    if not comprobation_admin():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    if request.method == 'POST':
+        userName = request.get_json()['key']
+        response = instant(conn, userName)
+        return make_response(jsonify(response), response['error'])
+
+
+@admin_bp.route('/confirmUser', methods=['POST'])
+@login_required
+def confirmUser():
+    if not comprobation_admin():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    if request.method == 'POST':
+        res = request.get_json()
+        dpi = res['key']
+        response = obtain_UserInfo(conn, dpi)
         return make_response(jsonify(response), response['error'])

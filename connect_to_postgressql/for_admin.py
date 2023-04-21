@@ -93,3 +93,28 @@ def editDoctorUnit(conn, tupleInformation):
     status['message'] = 'No se encontraron las consultas del expediente'
     status['error'] = 404
     return status
+
+
+def obtain_UserInfo(conn, dpiUser):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute("""select dpi, nombre, clave, rol from usuarios_app where dpi ='"""+str(dpiUser)+"'")
+
+    rows = cur.fetchall()
+
+    if len(rows) != 0:
+        status['data'] = [{
+            'dpiUser': row[0],
+            'nameUser': row[1],
+            'clave': row[2],
+            'rol': row[2]
+        } for row in rows]
+        return status
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
