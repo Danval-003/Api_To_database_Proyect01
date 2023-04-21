@@ -50,7 +50,7 @@ def obtain_unit_instant():
     if request.method == 'POST':
         id_unit = request.get_json()['key']
         query = "select id, nombre from unidad_salud where to_char(id, 'FM99999') like '" + str(id_unit) + "%'"
-        response = instant(conn, query, ['dpi', 'namePatient', 'Patient'])
+        response = instant(conn, query, ['dpi', 'nameUnit', 'Unit'])
         return make_response(jsonify(response), response['error'])
 
 
