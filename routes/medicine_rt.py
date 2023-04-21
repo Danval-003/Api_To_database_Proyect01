@@ -46,7 +46,7 @@ def obtain_patient_instant():
     conn = current_user.get_my_user_conection()
 
     if request.method == 'POST':
-        response = patient_instant(conn, request.get_json()['id_patient'])
+        response = doctor_instant(conn, request.get_json()['id_patient'])
         return make_response(jsonify(response), response['error'])
 
 
