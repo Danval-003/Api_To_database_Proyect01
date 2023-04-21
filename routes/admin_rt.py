@@ -23,14 +23,15 @@ def verify_inventory():
 
 @admin_bp.route('/editDoctorUnit', methods=['POST'])
 @login_required
-def edit_doctor_unit():
+def change_doctor():
     conn = current_user.get_my_user_conection()
 
+    res = request.get_json()
 
-
+    data = [res['dpiDoctor'], res['idUnit']]
 
     if comprobation_admin():
-        response = obtain_bitacora(conn)
+        response = editDoctorUnit(conn, tuple(data))
         return make_response(jsonify(response), response['error'])
 
     return unauthorized()

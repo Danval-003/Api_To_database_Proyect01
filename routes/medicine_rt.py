@@ -39,6 +39,21 @@ def obtain_patient_instant():
         return make_response(jsonify(response), response['error'])
 
 
+@medicine_bp.route('/unitInstant', methods=['GET', 'POST'])
+@login_required
+def obtain_unit_instant():
+    if not comprobation_medic():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    if request.method == 'POST':
+        id_unit = request.get_json()['key']
+        query = "select id, nombre from unidad_salud where to_char(id, 'FM99999') like '" + str(id_unit) + "%'"
+        response = instant(conn, query, ['dpi', 'namePatient', 'Patient'])
+        return make_response(jsonify(response), response['error'])
+
+
 @medicine_bp.route('/docInstant', methods=['GET', 'POST'])
 @login_required
 def obtain_doctor_instant():
@@ -64,7 +79,7 @@ def obtain_disease_instant():
 
     if request.method == 'POST':
         id_disease = request.get_json()['key']
-        query = "select id, nombre from enfermedad where id = " + str(id_disease)
+        query = "select id, nombre from enfermedad where to_char(id, 'FM99999') like " + str(id_disease)
         response = instant(conn, query, ['dpi', 'nameDisease', 'Disease'])
         return make_response(jsonify(response), response['error'])
 
