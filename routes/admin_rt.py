@@ -60,6 +60,6 @@ def obtain_disease_instant():
 
     if request.method == 'POST':
         userName = request.get_json()['key']
-        query = "select nombre, dpi from usuarios_app where nombre like = '%" + str(userName) + "%'"
+        query = "select nombre, dpi from usuarios_app where nombre like '%" + str(userName) + "%'"
         response = instant(conn, query, ['nameUser', 'dpiUser', 'User'])
         return make_response(jsonify(response), response['error'])
