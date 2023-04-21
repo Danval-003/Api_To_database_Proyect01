@@ -19,3 +19,20 @@ def verify_inventory():
         return make_response(jsonify(response), response['error'])
 
     return unauthorized()
+
+
+@admin_bp.route('/editDoctorUnit', methods=['POST'])
+@login_required
+def verify_inventory():
+    conn = current_user.get_my_user_conection()
+
+
+    if 
+    data = []
+    keys =
+
+    if comprobation_admin():
+        response = obtain_bitacora(conn)
+        return make_response(jsonify(response), response['error'])
+
+    return unauthorized()

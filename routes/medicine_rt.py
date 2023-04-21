@@ -33,7 +33,9 @@ def obtain_patient_instant():
     conn = current_user.get_my_user_conection()
 
     if request.method == 'POST':
-        response = patient_instant(conn, request.get_json()['id_patient'])
+        id_patient = request.get_json()['key']
+        query = "select dpi, nombre from paciente where dpi like '" + str(id_patient) + "%'"
+        response = instant(conn, query, ['dpi', 'namePatient', 'Pacient'])
         return make_response(jsonify(response), response['error'])
 
 

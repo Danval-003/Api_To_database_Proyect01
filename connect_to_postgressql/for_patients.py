@@ -56,6 +56,29 @@ def patient_now(conn, id_patient):
     return status
 
 
+def instant(conn, query, structure):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute(query)
+    rows = cur.fetchall()
+    if len(rows) == 0:
+        status['message'] = 'No se encontro el '+structure[2]
+        status['error'] = 404
+        return status
+
+    status['data'] = [{
+        structure[0]: row[0],
+        structure[1]: row[1]
+    } for row in rows]
+
+    status['type'] = structure[2]
+    return status
+
+
 def patient_instant(conn, id_patient):
     status = {
         'error': 202,
@@ -111,6 +134,29 @@ def disease_instant(conn, id_disease):
     }
     cur = conn.cursor()
     cur.execute("select id, nombre from enfermedad where id = " + str(id_disease))
+    rows = cur.fetchall()
+    if len(rows) == 0:
+        status['message'] = 'No se encontro el paciente'
+        status['error'] = 404
+        return status
+
+    status['data'] = [{
+        'dpi': row[0],
+        'nameDisease': row[1]
+    } for row in rows]
+
+    status['type'] = 'Disease'
+    return status
+
+
+def disease_instant(conn, id_disease):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute("select id, nombre from unidad_salud where id = " + str(id_disease))
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontro el paciente'
