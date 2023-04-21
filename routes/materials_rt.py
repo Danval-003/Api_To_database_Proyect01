@@ -32,3 +32,15 @@ def verify_expired():
         return make_response(jsonify(response), response['error'])
 
     return unauthorized()
+
+
+@materials_bp.route('/verifyUnity', methods=['GET'])
+@login_required
+def verify_inventory():
+    conn = current_user.get_my_user_conection()
+
+    if comprobation_inventory():
+        response = material_inventory(conn)
+        return make_response(jsonify(response), response['error'])
+
+    return unauthorized()
