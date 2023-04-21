@@ -123,6 +123,7 @@ def solicitarPro(conn, tupla):
     }
 
     cur = conn.cursor()
+    print(tupla)
 
     try:
         cur.execute(''' select * from redater( %s, %s, %s) ''',
