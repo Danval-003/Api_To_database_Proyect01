@@ -112,7 +112,7 @@ def obtain_UserInfo(conn, dpiUser):
             'dpiUser': row[0],
             'nameUser': row[1],
             'clave': row[2],
-            'rol': row[2]
+            'rol': row[3]
         } for row in rows]
         return status
 
