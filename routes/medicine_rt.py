@@ -42,8 +42,6 @@ def obtain_patient_instant():
 @medicine_bp.route('/unitInstant', methods=['GET', 'POST'])
 @login_required
 def obtain_unit_instant():
-    if not comprobation_medic():
-        return unauthorized()
 
     conn = current_user.get_my_user_conection()
 
