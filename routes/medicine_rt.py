@@ -95,7 +95,7 @@ def obtain_product_instant():
     if request.method == 'POST':
         id_product = request.get_json()['key']
         query = "select id, descripcion from insumos where to_char(id, 'FM99999') like '" + str(id_product)+"%'"
-        response = instant(conn, query, ['dpi', 'nameDisease', 'Disease'])
+        response = instant(conn, query, ['dpi', 'nameProduct', 'Product'])
         return make_response(jsonify(response), response['error'])
 
 
