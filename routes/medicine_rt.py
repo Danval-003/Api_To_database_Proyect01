@@ -269,3 +269,20 @@ def create_Tratamient():
     except psycopg2.IntegrityError as expceptionMsg:
         ex = expceptionMsg + ""
         return make_response(jsonify(ex), 404)
+
+
+@medicine_bp.route('/deleteConsult', methods=['POST'])
+@login_required
+def delete_Consult():
+    if not comprobation_medic():
+        return unauthorized()
+
+    res = request.get_json()
+    print(res)
+    try:
+        conn = current_user.get_my_user_conection()
+        response = deleteConsult(conn, res['idConsult'])
+        return make_response(jsonify(response), response['error'])
+
+    except psycopg2.IntegrityError as expceptionMsg:
+        ex = expceptionMsg + ""

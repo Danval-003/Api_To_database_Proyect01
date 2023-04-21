@@ -358,3 +358,26 @@ def createTratamient(conn, tuplaInfo):
     return status
 
 
+def deleteConsult(conn, idConsult):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+
+    cur = conn.cursor()
+
+    try:
+        cur.execute("delete from consulta where id = '" +idConsult+"'")
+        conn.commit()
+        status['message'] = 'Bien hecho'
+        status['error'] = 202
+        return status
+    except psycopg2.IntegrityError as e:
+        # En caso el query falle se obtiene de vuelta el error
+        status['error'] = 400
+        status['message'] = e.diag.message_primary
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
