@@ -87,3 +87,31 @@ def topPatient(conn):
         'namePatient': row[3]
     } for row in rows]
     return status
+
+
+def topUnitHealth(conn):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute('''
+    select rank() over(order by count(*) desc , us.nombre ) as ranking, us.id, us.nombre, count(*) from consulta
+        inner join unidad_salud us on us.id = consulta.id_unidad_salud
+        group by us.id, us.nombre
+        order by ranking
+        limit 3''')
+    rows = cur.fetchall()
+    if len(rows) == 0:
+        status['message'] = 'No se encontraron los datos'
+        status['error'] = 404
+        return status
+
+    status['data'] = [{
+        'ranking': row[0],
+        'idUnit': row[1],
+        'nameUnit': row[2],
+        'countP': row[3]
+    } for row in rows]
+    return status

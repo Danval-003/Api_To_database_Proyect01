@@ -42,3 +42,15 @@ def obtainTopPatient():
 
     response = topPatient(conn)
     return make_response(jsonify(response), response['error'])
+
+
+@statistic_bp.route('/topUnitHealth', methods=['GET'])
+@login_required
+def obtainTopUnitHealt():
+    if not comprobation_medic():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    response = topUnitHealth(conn)
+    return make_response(jsonify(response), response['error'])
