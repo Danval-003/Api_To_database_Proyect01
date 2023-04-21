@@ -87,8 +87,6 @@ def obtain_disease_instant():
 @medicine_bp.route('/productInstant', methods=['GET', 'POST'])
 @login_required
 def obtain_product_instant():
-    if not comprobation_medic():
-        return unauthorized()
 
     conn = current_user.get_my_user_conection()
 
