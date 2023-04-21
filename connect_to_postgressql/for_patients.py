@@ -333,6 +333,10 @@ def createTratamient(conn, tuplaInfo):
     }
 
     cur = conn.cursor()
+    print(''' 
+                insert into insumos_tratamientos(id_insumo, dosis, fecha_inicio, fecha_final, id_consulta)
+                values(%s, %s, %s, %s, %s); ''',
+                    tuplaInfo)
 
     try:
         cur.execute(''' 
