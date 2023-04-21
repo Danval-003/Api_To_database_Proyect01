@@ -23,13 +23,11 @@ def verify_inventory():
 
 @admin_bp.route('/editDoctorUnit', methods=['POST'])
 @login_required
-def verify_inventory():
+def edit_doctor_unit():
     conn = current_user.get_my_user_conection()
 
 
-    if 
-    data = []
-    keys =
+
 
     if comprobation_admin():
         response = obtain_bitacora(conn)
