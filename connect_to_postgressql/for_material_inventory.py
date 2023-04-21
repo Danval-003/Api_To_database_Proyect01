@@ -129,9 +129,10 @@ def solicitarPro(conn, tupla):
                     tupla
                     )
         rows = cur.fetchall()
-        f = rows[0][0]
-        if f > 0:
-            status['message'] = 'Faltan '+f+' elementos para completar la solicitud'
+        if len(rows) >0 :
+            f = rows[0][0]
+            if f > 0:
+                status['message'] = 'Faltan '+f+' elementos para completar la solicitud'
 
         conn.commit()
 
