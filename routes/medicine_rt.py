@@ -254,7 +254,7 @@ def create_Consult():
 
 @medicine_bp.route('/createTratamient', methods=['POST'])
 @login_required
-def create_Consult():
+def create_Tratamient():
     if not comprobation_medic():
         return unauthorized()
 
