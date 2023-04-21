@@ -233,7 +233,8 @@ def create_Consult():
     if not comprobation_medic():
         return unauthorized()
 
-    keys = 'dpi_paciente,id_medico,id_enfermedad,id_unidad_salud,fecha,descripcion,evolucion'
+    keys = 'patientDpi,docDpi,diseaseId,unitId,dateStart,description,evolution'
+
 
     res = request.get_json()
     print(res)
