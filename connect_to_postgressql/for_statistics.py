@@ -41,7 +41,7 @@ def topDoctors(conn):
     cur.execute('''SELECT rank() over(order by count(*) desc , m.nombre ) ,m.nombre, 
                     COUNT(*) AS total_pacientes_atendidos, m.dpi
                     FROM Medico m
-                    JOIN Consulta c ON m.dpi = c.id_medico
+                    JOIN Consulta c ON m.dpi = c.dpi_medico
                     GROUP BY m.dpi
                     ORDER BY total_pacientes_atendidos DESC
                     LIMIT 10;''')
