@@ -39,7 +39,7 @@ def obtain_patient_instant():
 
 @medicine_bp.route('/docInstant', methods=['GET', 'POST'])
 @login_required
-def obtain_patient_instant():
+def obtain_doctor_instant():
     if not comprobation_medic():
         return unauthorized()
 
