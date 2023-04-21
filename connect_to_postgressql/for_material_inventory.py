@@ -82,9 +82,11 @@ def obtain_insumo(conn, tupla):
     status['data'] = [{
         "healthUnit": row[0],
         "product": row[1],
-        "totalQuantity": row[2],
-        "availableQuantity": row[3],
-        "expiredDate": row[4]
+        "availibleQuantity": row[2],
+        "expiredDate": row[3],
+        "idUnit": row[4],
+        "idProduct": row[5]
+
     } for row in rows]
     return status
 
