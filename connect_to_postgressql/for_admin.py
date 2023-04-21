@@ -115,6 +115,7 @@ def obtain_UserInfo(conn, dpiUser):
         } for row in rows]
         return status
 
+    status['type'] = 'USERPT'
     status['message'] = 'No se encontraron las consultas del expediente'
     status['error'] = 404
     return status
