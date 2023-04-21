@@ -169,8 +169,9 @@ def deleteExamens(conn, dpi, id):
         'data': []
     }
     cur = conn.cursor()
+
     cur.execute(""" 
-            delete from examen_paciente where id_examen = '"""+id+"""' and dpi_paciente = '""" + str(dpi) +"'")
+            delete from examen_paciente where id_examen = """+str(id)+""" and dpi_paciente = '""" + str(dpi) +"'")
     conn.commit()
 
     status['message'] = 'No se encontraron las consultas del expediente'
