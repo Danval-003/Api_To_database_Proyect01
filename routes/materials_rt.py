@@ -52,7 +52,7 @@ def request_product():
 
 @materials_bp.route('/requestProductExpired', methods=['POST'])
 @login_required
-def request_product():
+def request_product_expired():
     conn = current_user.get_my_user_conection()
 
     res = request.get_json()
