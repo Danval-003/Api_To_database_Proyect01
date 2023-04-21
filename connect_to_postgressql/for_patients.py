@@ -241,7 +241,7 @@ def createConsult(conn, tuplaInfo):
 
     try:
         cur.execute(''' 
-                insert into consulta(dpi_paciente, id_medico, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion) 
+                insert into consulta(dpi_paciente, dpi_medico, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion) 
                 values(%s, %s, %s, %s, %s, %s, %s); ''',
                     tuplaInfo
                     )
