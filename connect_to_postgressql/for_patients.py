@@ -110,7 +110,7 @@ def disease_instant(conn, id_disease):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute("select id, nombre from enfermedad where id like '" + str(id_disease) + "%'")
+    cur.execute("select id, nombre from enfermedad where id = " + str(id_disease))
     rows = cur.fetchall()
     if len(rows) == 0:
         status['message'] = 'No se encontro el paciente'
