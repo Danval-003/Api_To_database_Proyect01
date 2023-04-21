@@ -48,3 +48,18 @@ def verify_doctor_unit_history():
         return make_response(jsonify(response), response['error'])
 
     return unauthorized()
+
+
+@admin_bp.route('/usersInstant', methods=['GET', 'POST'])
+@login_required
+def obtain_disease_instant():
+    if not comprobation_admin():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    if request.method == 'POST':
+        userName = request.get_json()['key']
+        query = "select nombre, dpi from usuarios_app where nombre like = '%" + str(userName) + "%'"
+        response = instant(conn, query, ['nameUser', 'dpiUser', 'User'])
+        return make_response(jsonify(response), response['error'])

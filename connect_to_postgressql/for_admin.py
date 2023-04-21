@@ -1,4 +1,5 @@
 import psycopg2
+from connect_to_postgressql.for_patients import instant
 
 
 def obtain_bitacora(conn):
