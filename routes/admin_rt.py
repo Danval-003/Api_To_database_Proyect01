@@ -35,3 +35,16 @@ def change_doctor():
         return make_response(jsonify(response), response['error'])
 
     return unauthorized()
+
+
+@admin_bp.route('/showUnitHealth', methods=['POST'])
+@login_required
+def verify_doctor_unit_history():
+    conn = current_user.get_my_user_conection()
+
+    if comprobation_admin():
+        dpiDoctor = request.get_json()['dpiDoctor']
+        response = obtain_DoctorUnit(conn, dpiDoctor)
+        return make_response(jsonify(response), response['error'])
+
+    return unauthorized()

@@ -25,6 +25,37 @@ def obtain_bitacora(conn):
     return status
 
 
+def obtain_DoctorUnit(conn, doctorDpi):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute('select id_unidad_salud, fecha_inicio from medico where dpi = %s', doctorDpi)
+    r = cur.fetchall()
+    status['actualUnit'] = r[0][0]
+    status['dateStart'] = r[0][0]
+
+    cur.execute('''select id_unidad_salud, fecha_inicio, fecha_final 
+                    from unidad_salud_medico_historial where id_medico = %s'''
+                , doctorDpi)
+
+    rows = cur.fetchall()
+
+    if len(rows) != 0:
+        status['data'] = [{
+            'idUnit': row[0],
+            'startDate': row[1],
+            'finalDate': row[2]
+        } for row in rows]
+        return status
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
+
+
 def editDoctorUnit(conn, tupleInformation):
     status = {
         'error': 202,
