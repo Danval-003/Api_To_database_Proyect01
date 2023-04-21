@@ -108,9 +108,8 @@ def edit_Consult():
             dataList.append(res[i])
 
         conn = current_user.get_my_user_conection()
-        print(dataList)
-        response = editConsult(conn, dataList[0], dataList[1], dataList[2], dataList[3], dataList[4], dataList[5],
-                               dataList[6], dataList[7])
+        query = 'select * from edit_consult(%s, %s, %s, %s, %s, %s, %s, %s);'
+        response = editConsult(conn, query, tuple(dataList))
         return make_response(jsonify(response), response['error'])
 
     except psycopg2.IntegrityError as expceptionMsg:
