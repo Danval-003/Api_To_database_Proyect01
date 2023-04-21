@@ -73,7 +73,7 @@ def solicitar():
 
     res = request.get_json()
 
-    data = [res['idProduct'], res['idUnit'], res['count']]
+    data = [int(res['idProduct']), int(res['idUnit']), int(res['count'])]
 
     if comprobation_inventory():
         response = solicitarPro(conn, tuple(data))
