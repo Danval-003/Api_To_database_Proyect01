@@ -103,6 +103,29 @@ def doctor_instant(conn, id_doctor):
     return status
 
 
+def disease_instant(conn, id_disease):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute("select id, nombre from enfermedad where id like '" + str(id_disease) + "%'")
+    rows = cur.fetchall()
+    if len(rows) == 0:
+        status['message'] = 'No se encontro el paciente'
+        status['error'] = 404
+        return status
+
+    status['data'] = [{
+        'dpi': row[0],
+        'nameDisease': row[1]
+    } for row in rows]
+
+    status['type'] = 'Disease'
+    return status
+
+
 def expedient(conn, id_patient):
     status = {
         'error': 202,

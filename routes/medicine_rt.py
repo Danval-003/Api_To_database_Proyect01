@@ -50,6 +50,19 @@ def obtain_doctor_instant():
         return make_response(jsonify(response), response['error'])
 
 
+@medicine_bp.route('/diseaseInstant', methods=['GET', 'POST'])
+@login_required
+def obtain_disease_instant():
+    if not comprobation_medic():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    if request.method == 'POST':
+        response = disease_instant(conn, request.get_json()['id_patient'])
+        return make_response(jsonify(response), response['error'])
+
+
 @medicine_bp.route('/expedient', methods=['POST'])
 @login_required
 def obtain_expedient():
