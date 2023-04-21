@@ -39,10 +39,10 @@ def topDoctors(conn):
     }
     cur = conn.cursor()
     cur.execute('''SELECT rank() over(order by count(*) desc , m.nombre ) ,m.nombre, 
-                    COUNT(*) AS total_pacientes_atendidos
+                    COUNT(*) AS total_pacientes_atendidos, m.dpi
                     FROM Medico m
-                    JOIN Consulta c ON m.id = c.id_medico
-                    GROUP BY m.id
+                    JOIN Consulta c ON m.dpi = c.id_medico
+                    GROUP BY m.dpi
                     ORDER BY total_pacientes_atendidos DESC
                     LIMIT 10;''')
     rows = cur.fetchall()
@@ -54,7 +54,8 @@ def topDoctors(conn):
     status['data'] = [{
         'ranking': row[0],
         'nameDoctor': row[1],
-        'countAttendedPatient': row[2]
+        'countAttendedPatient': row[2],
+        'dpiDoctor': row[3]
     } for row in rows]
     return status
 
