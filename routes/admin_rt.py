@@ -92,3 +92,18 @@ def confirmUser():
         dpi = res['key']
         response = obtain_UserInfo(conn, dpi)
         return make_response(jsonify(response), response['error'])
+
+
+@admin_bp.route('/editUser', methods=['POST'])
+@login_required
+def ceditUser():
+    if not comprobation_admin():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    if request.method == 'POST':
+        res = request.get_json()
+        tupleinfo = tuple([str(res['nombre']), str(res['clave']), str(res['rol']), str(res['dpi'])])
+        response = editUser(conn, tupleinfo)
+        return make_response(jsonify(response), response['error'])

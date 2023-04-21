@@ -119,3 +119,33 @@ def obtain_UserInfo(conn, dpiUser):
     status['message'] = 'No se encontraron las consultas del expediente'
     status['error'] = 404
     return status
+
+
+def editUser(conn, tupleInfo):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+
+    cur = conn.cursor()
+
+    try:
+
+        cur.execute(''' update usuarios_app set nombre = %s, clave = %s, rol = %s where dpi = %s''',
+                    tupleInfo
+                    )
+
+        conn.commit()
+        status['message'] = 'Bien hecho'
+        status['error'] = 202
+        return status
+    except psycopg2.IntegrityError as e:
+        # En caso el query falle se obtiene de vuelta el error
+        status['error'] = 400
+        status['message'] = e.diag.message_primary
+        return status
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
