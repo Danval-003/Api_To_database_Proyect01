@@ -115,3 +115,33 @@ def requestedProductExpired(conn, tupla):
     return status
 
 
+def solicitarPro(conn, tupla):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+
+    cur = conn.cursor()
+
+    try:
+        cur.execute(''' select * from redater( %s, %s, %s) ''',
+                    tupla
+                    )
+        rows = cur.fetchall()
+        f = rows[0][0]
+        if f > 0:
+            status['message'] = 'Faltan '+f+' elementos para completar la solicitud'
+
+        conn.commit()
+
+        status['error'] = 202
+        return status
+    except psycopg2.IntegrityError as e:
+        # En caso el query falle se obtiene de vuelta el error
+        status['error'] = 400
+        status['message'] = e.diag.message_primary
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status

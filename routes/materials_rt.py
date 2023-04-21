@@ -64,3 +64,19 @@ def request_product_expired():
         return make_response(jsonify(response), response['error'])
 
     return unauthorized()
+
+
+@materials_bp.route('/solicitar', methods=['POST'])
+@login_required
+def request_product_expired():
+    conn = current_user.get_my_user_conection()
+
+    res = request.get_json()
+
+    data = [res['idProduct'], res['idUnit'], res['count']]
+
+    if comprobation_inventory():
+        response = solicitarPro(conn, tuple(data))
+        return make_response(jsonify(response), response['error'])
+
+    return unauthorized()
