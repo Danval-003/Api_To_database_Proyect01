@@ -243,7 +243,7 @@ def createConsult(conn, tuplaInfo):
                     tuplaInfo
                     )
         conn.commit()
-        cur.execute("select id from consulta where dpi_paciente = "+tuplaInfo[0]+" order by id limit 1")
+        cur.execute("select id from consulta where dpi_paciente = '"+tuplaInfo[0]+"' order by id limit 1")
         rows = cur.fetchall()
         status['idConsult'] = rows[0][0]
         status['message'] = 'Bien hecho'
