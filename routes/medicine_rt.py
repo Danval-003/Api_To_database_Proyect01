@@ -35,7 +35,7 @@ def obtain_patient_instant():
     if request.method == 'POST':
         id_patient = request.get_json()['key']
         query = "select dpi, nombre from paciente where dpi like '" + str(id_patient) + "%'"
-        response = instant(conn, query, ['dpi', 'namePatient', 'Pacient'])
+        response = instant(conn, query, ['dpi', 'namePatient', 'Patient'])
         return make_response(jsonify(response), response['error'])
 
 
@@ -48,7 +48,9 @@ def obtain_doctor_instant():
     conn = current_user.get_my_user_conection()
 
     if request.method == 'POST':
-        response = doctor_instant(conn, request.get_json()['id_patient'])
+        id_doctor = request.get_json()['key']
+        query = "select dpi, nombre from medico where dpi like '" + str(id_doctor) + "%'"
+        response = instant(conn, query, ['dpi', 'nameDoctor', 'Doctor'])
         return make_response(jsonify(response), response['error'])
 
 
@@ -61,7 +63,9 @@ def obtain_disease_instant():
     conn = current_user.get_my_user_conection()
 
     if request.method == 'POST':
-        response = disease_instant(conn, request.get_json()['id_patient'])
+        id_disease = request.get_json()['key']
+        query = "select id, nombre from enfermedad where id = " + str(id_disease)
+        response = instant(conn, query, ['dpi', 'nameDisease', 'Disease'])
         return make_response(jsonify(response), response['error'])
 
 
