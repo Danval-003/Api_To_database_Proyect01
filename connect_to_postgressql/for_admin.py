@@ -32,14 +32,13 @@ def obtain_DoctorUnit(conn, doctorDpi):
         'data': []
     }
     cur = conn.cursor()
-    cur.execute('select id_unidad_salud, fecha_inicio from medico where dpi = %s', doctorDpi)
+    cur.execute("select id_unidad_salud, fecha_inicio from medico where dpi = '"+doctorDpi+"'")
     r = cur.fetchall()
     status['actualUnit'] = r[0][0]
     status['dateStart'] = r[0][0]
 
-    cur.execute('''select id_unidad_salud, fecha_inicio, fecha_final 
-                    from unidad_salud_medico_historial where id_medico = %s'''
-                , doctorDpi)
+    cur.execute("""select id_unidad_salud, fecha_inicio, fecha_final 
+                    from unidad_salud_medico_historial where id_medico = '"""+doctorDpi+"'")
 
     rows = cur.fetchall()
 
