@@ -233,15 +233,12 @@ def create_Consult():
     if not comprobation_medic():
         return unauthorized()
 
-    keys = 'patientDpi,docDpi,diseaseId,unitId,dateStart,description,evolution'
-
     res = request.get_json()
     print(res)
-    dataList = []
 
     try:
-        for i in keys.split(','):
-            dataList.append(res[i])
+        dataList = [str(res['patientDpi']), str(res['docDpi']), int(res['diseaseId']), int(res['unitId']),
+                    str(res['dateStart']), str(res['description']), str(res['evolution'])]
 
         conn = current_user.get_my_user_conection()
         response = createConsult(conn, tuple(dataList))
@@ -258,15 +255,12 @@ def create_Tratamient():
     if not comprobation_medic():
         return unauthorized()
 
-    keys = 'idInsumo,dosis,fechaInicio,fechaFinal,idConsult'
-
     res = request.get_json()
     print(res)
-    dataList = []
 
     try:
-        for i in keys.split(','):
-            dataList.append(res[i])
+        dataList = [int(res['idInsumo']), str(res['dosis']), str(res['fechaInicio']), str(res['fechaFinal']),
+                    id(res['idConsult'])]
 
         conn = current_user.get_my_user_conection()
         response = createTratamient(conn, tuple(dataList))
