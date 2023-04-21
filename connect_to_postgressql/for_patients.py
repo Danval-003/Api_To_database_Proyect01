@@ -138,6 +138,63 @@ def tratamient(conn, id_consult):
     return status
 
 
+def examens(conn, dpi):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute(""" 
+            select id_examen, e.descripcion from examen_paciente
+                 inner join examenes e on e.id = examen_paciente.id_examen
+                 where dpi_paciente = '""" + str(dpi) +"'")
+    rows = cur.fetchall()
+    if len(rows) != 0:
+        status['data'] = [{
+            'idExam': row[0],
+            'nameExam': row[1]
+        } for row in rows]
+        return status
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
+
+
+def deleteExamens(conn, dpi, id):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute(""" 
+            delete from examen_paciente where id_examen = '"""+id+"""' and dpi_paciente = '""" + str(dpi) +"'")
+    conn.commit()
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
+
+
+def addExamens(conn, dpi, id):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+    cur = conn.cursor()
+    cur.execute(""" 
+            insert into examen_paciente(id_examen, dpi_paciente) VALUES (%s, %s)""", (int(id), str(dpi)))
+
+    conn.commit()
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
+
+
 def editConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion, id_consult):
     status = {
         'error': 202,
@@ -172,7 +229,7 @@ def editConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fec
     return status
 
 
-def createConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion):
+def createConsult(conn, tuplaInfo):
     status = {
         'error': 202,
         'message': '',
@@ -185,9 +242,10 @@ def createConsult(conn, id_patient, id_doctor, id_enfermedad, id_unidad_salud, f
         cur.execute(''' 
                 insert into consulta(dpi_paciente, id_medico, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion) 
                 values(%s, %s, %s, %s, %s, %s, %s, %s); ''',
-                    (str(id_patient), id_doctor, id_enfermedad, id_unidad_salud, fecha, descripcion, evolucion)
+                    tuplaInfo
                     )
         conn.commit()
+        cur.execute("select * ")
         status['message'] = 'Bien hecho'
         status['error'] = 202
         return status

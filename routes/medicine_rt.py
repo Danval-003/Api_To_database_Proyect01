@@ -42,7 +42,6 @@ def obtain_patient_instant():
 @medicine_bp.route('/unitInstant', methods=['GET', 'POST'])
 @login_required
 def obtain_unit_instant():
-
     conn = current_user.get_my_user_conection()
 
     if request.method == 'POST':
@@ -77,7 +76,7 @@ def obtain_disease_instant():
 
     if request.method == 'POST':
         id_disease = request.get_json()['key']
-        query = "select id, nombre from enfermedad where to_char(id, 'FM99999') like '" + str(id_disease)+"%'"
+        query = "select id, nombre from enfermedad where to_char(id, 'FM99999') like '" + str(id_disease) + "%'"
         response = instant(conn, query, ['dpi', 'nameDisease', 'Disease'])
         return make_response(jsonify(response), response['error'])
 
@@ -85,12 +84,11 @@ def obtain_disease_instant():
 @medicine_bp.route('/productInstant', methods=['GET', 'POST'])
 @login_required
 def obtain_product_instant():
-
     conn = current_user.get_my_user_conection()
 
     if request.method == 'POST':
         id_product = request.get_json()['key']
-        query = "select id, descripcion from insumos where to_char(id, 'FM99999') like '" + str(id_product)+"%'"
+        query = "select id, descripcion from insumos where to_char(id, 'FM99999') like '" + str(id_product) + "%'"
         response = instant(conn, query, ['dpi', 'nameProduct', 'Product'])
         return make_response(jsonify(response), response['error'])
 
@@ -114,6 +112,39 @@ def obtain_consult():
 
     conn = current_user.get_my_user_conection()
     response = tratamient(conn, request.get_json()['id_consult'])
+    return make_response(jsonify(response), response['error'])
+
+
+@medicine_bp.route('/exam', methods=['POST'])
+@login_required
+def obtain_exams():
+    if not comprobation_medic():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+    response = examens(conn, request.get_json()['dpi'])
+    return make_response(jsonify(response), response['error'])
+
+
+@medicine_bp.route('/deleteExam', methods=['POST'])
+@login_required
+def delete_exams():
+    if not comprobation_medic():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+    response = deleteExamens(conn, request.get_json()['dpi'], request.get_json()['idExam'])
+    return make_response(jsonify(response), response['error'])
+
+
+@medicine_bp.route('/addExam', methods=['POST'])
+@login_required
+def add_exams():
+    if not comprobation_medic():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+    response = addExamens(conn, request.get_json()['dpi'], request.get_json()['idExam'])
     return make_response(jsonify(response), response['error'])
 
 
@@ -196,4 +227,26 @@ def edit_Tratamient():
         return make_response(jsonify(ex), 404)
 
 
+@medicine_bp.route('/createConsult', methods=['POST'])
+@login_required
+def create_Consult():
+    if not comprobation_medic():
+        return unauthorized()
 
+    keys = 'dpi_paciente,id_medico,id_enfermedad,id_unidad_salud,fecha,descripcion,evolucion'
+
+    res = request.get_json()
+    print(res)
+    dataList = []
+
+    try:
+        for i in keys.split(','):
+            dataList.append(res[i])
+
+        conn = current_user.get_my_user_conection()
+        response = createConsult(conn, tuple(dataList))
+        return make_response(jsonify(response), response['error'])
+
+    except psycopg2.IntegrityError as expceptionMsg:
+        ex = expceptionMsg + ""
+        return make_response(jsonify(ex), 404)
