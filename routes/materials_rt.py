@@ -34,13 +34,33 @@ def verify_expired():
     return unauthorized()
 
 
-@materials_bp.route('/verifyUnity', methods=['GET'])
+@materials_bp.route('/requestProduct', methods=['POST'])
 @login_required
-def verify_Unit():
+def request_product():
     conn = current_user.get_my_user_conection()
 
+    res = request.get_json()
+
+    data = [res['idProduct'], res['idUnit'], res['count'], res['expiredDate']]
+
     if comprobation_inventory():
-        response = material_inventory(conn)
+        response = requestedProduct(conn, tuple(data))
+        return make_response(jsonify(response), response['error'])
+
+    return unauthorized()
+
+
+@materials_bp.route('/requestProductExpired', methods=['POST'])
+@login_required
+def request_product():
+    conn = current_user.get_my_user_conection()
+
+    res = request.get_json()
+
+    data = [res['idProduct'], res['idUnit'], res['count'], res['expiredDate'], res['oldExpiredDate']]
+
+    if comprobation_inventory():
+        response = requestedProductExpired(conn, tuple(data))
         return make_response(jsonify(response), response['error'])
 
     return unauthorized()

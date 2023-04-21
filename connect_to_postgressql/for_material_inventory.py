@@ -55,37 +55,64 @@ def material_expired(conn):
         "product": row[1],
         "totalQuantity": row[2],
         "availableQuantity": row[3],
-        "expiredDate": row[4]
+        "expiredDate": row[4],
+        "unitID":row[5],
+        "productId": row[6]
     } for row in rows]
     return status
 
 
-def obtain_insumo(conn, tupla):
+def requestedProduct(conn, tupla):
     status = {
         'error': 202,
         'message': '',
         'data': []
     }
+
     cur = conn.cursor()
+
     try:
-        cur.execute("")
+        cur.execute(''' select * from requested_product(%s, %s, %s, %s) ''',
+                    tupla
+                    )
+        conn.commit()
+        status['message'] = 'Bien hecho'
+        status['error'] = 202
+        return status
     except psycopg2.IntegrityError as e:
         # En caso el query falle se obtiene de vuelta el error
-        status['error'] = 500
+        status['error'] = 400
         status['message'] = e.diag.message_primary
-    rows = cur.fetchall()
-    if len(rows) == 0:
-        status['message'] = 'No se encontraron materiales escazos'
-        status['error'] = 404
-        return status
 
-    status['data'] = [{
-        "healthUnit": row[0],
-        "product": row[1],
-        "availibleQuantity": row[2],
-        "expiredDate": row[3],
-        "idUnit": row[4],
-        "idProduct": row[5]
-    } for row in rows]
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
     return status
+
+
+def requestedProductExpired(conn, tupla):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+
+    cur = conn.cursor()
+
+    try:
+        cur.execute(''' select * from requested_product_expired(%s, %s, %s, %s, %s) ''',
+                    tupla
+                    )
+        conn.commit()
+        status['message'] = 'Bien hecho'
+        status['error'] = 202
+        return status
+    except psycopg2.IntegrityError as e:
+        # En caso el query falle se obtiene de vuelta el error
+        status['error'] = 400
+        status['message'] = e.diag.message_primary
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
+
 
