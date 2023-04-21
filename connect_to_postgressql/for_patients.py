@@ -173,9 +173,6 @@ def deleteExamens(conn, dpi, id):
     cur.execute(""" 
             delete from examen_paciente where id_examen = """+str(id)+""" and dpi_paciente = '""" + str(dpi) +"'")
     conn.commit()
-
-    status['message'] = 'No se encontraron las consultas del expediente'
-    status['error'] = 404
     return status
 
 
@@ -246,7 +243,9 @@ def createConsult(conn, tuplaInfo):
                     tuplaInfo
                     )
         conn.commit()
-        cur.execute("select * ")
+        cur.execute("select id from consulta where dpi_paciente = "+tuplaInfo[0]+" order by id limit 1")
+        rows = cur.fetchall()
+        status['idConsult'] = rows[0][0]
         status['message'] = 'Bien hecho'
         status['error'] = 202
         return status
@@ -324,3 +323,34 @@ def editTratamient(conn, tupleInformation):
     status['message'] = 'No se encontraron las consultas del expediente'
     status['error'] = 404
     return status
+
+
+def createTratamient(conn, tuplaInfo):
+    status = {
+        'error': 202,
+        'message': '',
+        'data': []
+    }
+
+    cur = conn.cursor()
+
+    try:
+        cur.execute(''' 
+                insert into insumos_tratamientos(id_insumo, dosis, fecha_inicio, fecha_final, id_consulta)
+                values(%s, %s, %s, %s, %s); ''',
+                    tuplaInfo
+                    )
+        conn.commit()
+        status['message'] = 'Bien hecho'
+        status['error'] = 202
+        return status
+    except psycopg2.IntegrityError as e:
+        # En caso el query falle se obtiene de vuelta el error
+        status['error'] = 400
+        status['message'] = e.diag.message_primary
+
+    status['message'] = 'No se encontraron las consultas del expediente'
+    status['error'] = 404
+    return status
+
+

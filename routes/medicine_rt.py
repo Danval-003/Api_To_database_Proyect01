@@ -235,7 +235,6 @@ def create_Consult():
 
     keys = 'patientDpi,docDpi,diseaseId,unitId,dateStart,description,evolution'
 
-
     res = request.get_json()
     print(res)
     dataList = []
@@ -246,6 +245,31 @@ def create_Consult():
 
         conn = current_user.get_my_user_conection()
         response = createConsult(conn, tuple(dataList))
+        return make_response(jsonify(response), response['error'])
+
+    except psycopg2.IntegrityError as expceptionMsg:
+        ex = expceptionMsg + ""
+        return make_response(jsonify(ex), 404)
+
+
+@medicine_bp.route('/createTratamient', methods=['POST'])
+@login_required
+def create_Consult():
+    if not comprobation_medic():
+        return unauthorized()
+
+    keys = 'idInsumo,dosis,fechaInicio,fechaFinal,idConsult'
+
+    res = request.get_json()
+    print(res)
+    dataList = []
+
+    try:
+        for i in keys.split(','):
+            dataList.append(res[i])
+
+        conn = current_user.get_my_user_conection()
+        response = createTratamient(conn, tuple(dataList))
         return make_response(jsonify(response), response['error'])
 
     except psycopg2.IntegrityError as expceptionMsg:
