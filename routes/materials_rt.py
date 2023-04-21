@@ -36,7 +36,7 @@ def verify_expired():
 
 @materials_bp.route('/verifyUnity', methods=['GET'])
 @login_required
-def verify_inventory():
+def verify_Unit():
     conn = current_user.get_my_user_conection()
 
     if comprobation_inventory():
