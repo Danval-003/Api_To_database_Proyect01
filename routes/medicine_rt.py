@@ -260,7 +260,7 @@ def create_Tratamient():
 
     try:
         dataList = [int(res['idInsumo']), str(res['dosis']), str(res['fechaInicio']), str(res['fechaFinal']),
-                    id(res['idConsult'])]
+                    int(res['idConsult'])]
 
         conn = current_user.get_my_user_conection()
         response = createTratamient(conn, tuple(dataList))
