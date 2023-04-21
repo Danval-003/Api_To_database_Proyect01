@@ -72,7 +72,8 @@ def patient_instant(conn, id_patient):
 
     status['data'] = [{
         'dpi': row[0],
-        'name_patient': row[1]
+        'namePatient': row[1],
+        'type': 'Patient'
     } for row in rows]
     return status
 
@@ -93,7 +94,8 @@ def doctor_instant(conn, id_doctor):
 
     status['data'] = [{
         'dpi': row[0],
-        'name_patient': row[1]
+        'nameDoctor': row[1],
+        'type': 'Doctor'
     } for row in rows]
     return status
 
