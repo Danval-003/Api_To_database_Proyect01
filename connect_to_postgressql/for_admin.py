@@ -107,6 +107,7 @@ def obtain_UserInfo(conn, dpiUser):
     rows = cur.fetchall()
 
     if len(rows) != 0:
+        status['type'] = 'USERPT'
         status['data'] = [{
             'dpiUser': row[0],
             'nameUser': row[1],
@@ -115,7 +116,6 @@ def obtain_UserInfo(conn, dpiUser):
         } for row in rows]
         return status
 
-    status['type'] = 'USERPT'
     status['message'] = 'No se encontraron las consultas del expediente'
     status['error'] = 404
     return status
