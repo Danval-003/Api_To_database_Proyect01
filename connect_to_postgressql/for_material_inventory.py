@@ -53,11 +53,10 @@ def material_expired(conn):
     status['data'] = [{
         "healthUnit": row[0],
         "product": row[1],
-        "totalQuantity": row[2],
-        "availableQuantity": row[3],
-        "expiredDate": row[4],
-        "unitID":row[5],
-        "productId": row[6]
+        "availableQuantity": row[2],
+        "expiredDate": row[3],
+        "unitID":row[4],
+        "productId": row[5]
     } for row in rows]
     return status
 
