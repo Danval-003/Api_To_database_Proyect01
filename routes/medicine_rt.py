@@ -84,6 +84,21 @@ def obtain_disease_instant():
         return make_response(jsonify(response), response['error'])
 
 
+@medicine_bp.route('/productInstant', methods=['GET', 'POST'])
+@login_required
+def obtain_product_instant():
+    if not comprobation_medic():
+        return unauthorized()
+
+    conn = current_user.get_my_user_conection()
+
+    if request.method == 'POST':
+        id_product = request.get_json()['key']
+        query = "select id, descripcion from insumos where to_char(id, 'FM99999') like '" + str(id_product)+"%'"
+        response = instant(conn, query, ['dpi', 'nameDisease', 'Disease'])
+        return make_response(jsonify(response), response['error'])
+
+
 @medicine_bp.route('/expedient', methods=['POST'])
 @login_required
 def obtain_expedient():
@@ -183,3 +198,6 @@ def edit_Tratamient():
     except psycopg2.IntegrityError as expceptionMsg:
         ex = expceptionMsg + ""
         return make_response(jsonify(ex), 404)
+
+
+
