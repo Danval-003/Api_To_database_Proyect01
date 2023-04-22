@@ -368,7 +368,7 @@ def deleteConsult(conn, idConsult):
     cur = conn.cursor()
 
     try:
-        cur.execute("delete from consulta where id = '" +idConsult+"'")
+        cur.execute("delete from consulta where id = " +str(idConsult)+"")
         conn.commit()
         status['message'] = 'Bien hecho'
         status['error'] = 202
